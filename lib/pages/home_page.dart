@@ -7,6 +7,7 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter_application_1/models/english_today.dart';
 import 'package:flutter_application_1/packages/quote/qoute_model.dart';
 import 'package:flutter_application_1/packages/quote/quote.dart';
+import 'package:flutter_application_1/pages/control_page.dart';
 import 'package:flutter_application_1/values/app_assets.dart';
 import 'package:flutter_application_1/values/app_colors.dart';
 import 'package:flutter_application_1/values/app_styles.dart';
@@ -253,7 +254,12 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24.0),
-                child: AppButton(label: "Your Control", onTap: () {}),
+                child: AppButton(
+                    label: "Your Control",
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => ControlPage()));
+                    }),
               )
             ],
           ),

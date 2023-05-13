@@ -58,7 +58,7 @@ class _ControlPageState extends State<ControlPage> {
           child: Image.asset(AppAssets.leftArrow),
         ),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(children: [
           const Spacer(),

@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/english_today.dart';
 import 'package:flutter_application_1/values/app_assets.dart';
@@ -19,7 +18,7 @@ class AllWordsPage extends StatelessWidget {
         backgroundColor: AppColors.secondColor,
         title: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.only(right: 12),
+          padding: const EdgeInsets.only(right: 12),
           child: Text(
             "English Today",
             style:

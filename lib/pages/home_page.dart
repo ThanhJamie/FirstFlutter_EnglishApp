@@ -11,7 +11,10 @@ import 'package:flutter_application_1/pages/control_page.dart';
 import 'package:flutter_application_1/values/app_assets.dart';
 import 'package:flutter_application_1/values/app_colors.dart';
 import 'package:flutter_application_1/values/app_styles.dart';
+import 'package:flutter_application_1/values/share_keys.dart';
 import 'package:flutter_application_1/widgets/app_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,14 +51,17 @@ class _HomePageState extends State<HomePage> {
     return newList;
   }
 
-  getEnglishToday() {
+  getEnglishToday() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int len = prefs.getInt(ShareKeys.counter) ?? 5;
     List<String> newList = [];
-    List<int> rans = fixedListRamdom(len: 5, max: nouns.length);
+    List<int> rans = fixedListRamdom(len: len, max: nouns.length);
     rans.forEach((index) {
       newList.add(nouns[index]);
     });
-
-    words = newList.map((e) => getQuote(e)).toList();
+    setState(() {
+      words = newList.map((e) => getQuote(e)).toList();
+    });
   }
 
   EnglishToday getQuote(String noun) {
@@ -193,8 +199,10 @@ class _HomePageState extends State<HomePage> {
                                     ])),
                             Padding(
                               padding: const EdgeInsets.only(top: 24),
-                              child: Text(
+                              child: AutoSizeText(
                                 '"$quote"',
+                                // overflow: TextOverflow.clip,
+                                maxFontSize: 26,
                                 style: AppStyles.h4.copyWith(
                                     fontSize: 28,
                                     letterSpacing: 1,

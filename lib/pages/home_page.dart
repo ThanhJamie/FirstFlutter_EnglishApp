@@ -7,6 +7,7 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter_application_1/models/english_today.dart';
 import 'package:flutter_application_1/packages/quote/qoute_model.dart';
 import 'package:flutter_application_1/packages/quote/quote.dart';
+import 'package:flutter_application_1/pages/all_words_page.dart';
 import 'package:flutter_application_1/pages/control_page.dart';
 import 'package:flutter_application_1/values/app_assets.dart';
 import 'package:flutter_application_1/values/app_colors.dart';
@@ -215,22 +216,25 @@ class _HomePageState extends State<HomePage> {
                     );
                   }),
             ),
-            SizedBox(
-              height: size.height * 1 / 11,
-              // margin: const EdgeInsets.symmetric(vertical: 16),
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 28),
-                child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: ((context, index) {
-                      return buildIndicator(index == _currentIndex, size);
-                    })),
-              ),
-            )
+            _currentIndex >= 5
+                ? buildShowMore()
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: SizedBox(
+                      height: size.height * 1 / 11,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        alignment: Alignment.center,
+                        child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return buildIndicator(
+                                  index == _currentIndex, size);
+                            }),
+                      ),
+                    ))
           ],
         ),
       ),
@@ -277,7 +281,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildIndicator(bool isActive, Size size) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.bounceInOut,
       height: 12,
       margin: EdgeInsets.symmetric(horizontal: 8),
       width: isActive ? size.width * 1 / 4 : 24,
@@ -288,6 +294,35 @@ class _HomePageState extends State<HomePage> {
             BoxShadow(
                 color: Colors.black38, offset: Offset(2, 3), blurRadius: 3)
           ]),
+    );
+  }
+
+  Widget buildShowMore() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      alignment: Alignment.centerLeft,
+      child: Material(
+        elevation: 4,
+        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.all(Radius.circular(24)),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => AllWordsPage(
+                          words: this.words,
+                        )));
+          },
+          borderRadius: BorderRadius.all(Radius.circular(24)),
+          child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: Text(
+                "Show more",
+                style: AppStyles.h5.copyWith(color: AppColors.textColor),
+              )),
+        ),
+      ),
     );
   }
 }

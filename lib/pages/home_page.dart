@@ -7,7 +7,8 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter_application_1/models/english_today.dart';
 import 'package:flutter_application_1/packages/quote/qoute_model.dart';
 import 'package:flutter_application_1/packages/quote/quote.dart';
-import 'package:flutter_application_1/pages/all_words_page.dart';
+import 'package:flutter_application_1/pages/all_page.dart';
+// import 'package:flutter_application_1/pages/all_words_page.dart';
 import 'package:flutter_application_1/pages/control_page.dart';
 import 'package:flutter_application_1/values/app_assets.dart';
 import 'package:flutter_application_1/values/app_colors.dart';
@@ -132,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                       _currentIndex = index;
                     });
                   },
-                  itemCount: words.length,
+                  itemCount: words.length > 5 ? 6 : words.length,
                   itemBuilder: (context, index) {
                     String firstLetter =
                         words[index].noun != null ? words[index].noun![0] : "";
@@ -164,68 +165,94 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             padding: EdgeInsets.all(16),
                             // margin: EdgeInsets.symmetric(horizontal: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  child: Image.asset(AppAssets.heart,
-                                      color: words[index].isFavorite
-                                          ? Colors.red
-                                          : Colors.white),
-                                ),
-                                RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.start,
-                                    text: TextSpan(
-                                        text: firstLetter,
-                                        style: TextStyle(
-                                            fontFamily: FontFamily.sen,
-                                            fontSize: 96,
-                                            fontWeight: FontWeight.bold,
-                                            shadows: const [
-                                              BoxShadow(
-                                                  color: Colors.black38,
-                                                  offset: Offset(3, 6),
-                                                  blurRadius: 6)
-                                            ]),
-                                        children: [
-                                          TextSpan(
-                                            text: leftLetter,
-                                            style: TextStyle(
-                                                fontFamily: FontFamily.sen,
-                                                fontSize: 64,
-                                                fontWeight: FontWeight.bold,
-                                                shadows: const [
-                                                  BoxShadow(
-                                                      color: Colors.black38,
-                                                      offset: Offset(3, 6),
-                                                      blurRadius: 6)
-                                                ]),
-                                          )
-                                        ])),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 24),
-                                  child: AutoSizeText(
-                                    '"$quote"',
-                                    // overflow: TextOverflow.clip,
-                                    maxFontSize: 26,
-                                    style: AppStyles.h4.copyWith(
-                                        fontSize: 28,
-                                        letterSpacing: 1,
-                                        color: AppColors.textColor),
+                            child: index >= 5
+                                ? InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  AllWordsPage(words: words)));
+                                    },
+                                    child: Center(
+                                      child: Text(
+                                        "Show more",
+                                        style: AppStyles.h3.copyWith(shadows: [
+                                          BoxShadow(
+                                              color: Colors.black26,
+                                              offset: Offset(3, 6),
+                                              blurRadius: 6)
+                                        ]),
+                                      ),
+                                    ),
+                                  )
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.centerRight,
+                                        child: Image.asset(AppAssets.heart,
+                                            color: words[index].isFavorite
+                                                ? Colors.red
+                                                : Colors.white),
+                                      ),
+                                      RichText(
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          textAlign: TextAlign.start,
+                                          text: TextSpan(
+                                              text: firstLetter,
+                                              style: TextStyle(
+                                                  fontFamily: FontFamily.sen,
+                                                  fontSize: 96,
+                                                  fontWeight: FontWeight.bold,
+                                                  shadows: const [
+                                                    BoxShadow(
+                                                        color: Colors.black38,
+                                                        offset: Offset(3, 6),
+                                                        blurRadius: 6)
+                                                  ]),
+                                              children: [
+                                                TextSpan(
+                                                  text: leftLetter,
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          FontFamily.sen,
+                                                      fontSize: 64,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      shadows: const [
+                                                        BoxShadow(
+                                                            color:
+                                                                Colors.black38,
+                                                            offset:
+                                                                Offset(3, 6),
+                                                            blurRadius: 6)
+                                                      ]),
+                                                )
+                                              ])),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 24),
+                                        child: AutoSizeText(
+                                          '"$quote"',
+                                          // overflow: TextOverflow.clip,
+                                          maxFontSize: 26,
+                                          style: AppStyles.h4.copyWith(
+                                              fontSize: 28,
+                                              letterSpacing: 1,
+                                              color: AppColors.textColor),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
                           ),
                         ),
                       ),
                     );
                   }),
             ),
-            _currentIndex >= 5
+            _currentIndex > 5
                 ? buildShowMore()
                 : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -315,14 +342,7 @@ class _HomePageState extends State<HomePage> {
         color: AppColors.primaryColor,
         borderRadius: BorderRadius.all(Radius.circular(24)),
         child: InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => AllWordsPage(
-                          words: this.words,
-                        )));
-          },
+          onTap: () {},
           borderRadius: BorderRadius.all(Radius.circular(24)),
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),

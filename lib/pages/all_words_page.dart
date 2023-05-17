@@ -5,9 +5,9 @@ import 'package:flutter_application_1/values/app_assets.dart';
 import 'package:flutter_application_1/values/app_colors.dart';
 import 'package:flutter_application_1/values/app_styles.dart';
 
-class AllWordsPage extends StatelessWidget {
+class AllWordsPage2 extends StatelessWidget {
   final List<EnglishToday> words;
-  const AllWordsPage({Key? key, required this.words}) : super(key: key);
+  const AllWordsPage2({Key? key, required this.words}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

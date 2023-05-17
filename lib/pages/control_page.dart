@@ -68,6 +68,7 @@ class _ControlPageState extends State<ControlPage> {
                 AppStyles.h4.copyWith(color: AppColors.lightGrey, fontSize: 18),
           ),
           const Spacer(),
+
           Text(
             "${sliderValue.toInt()}",
             style: AppStyles.h1.copyWith(
